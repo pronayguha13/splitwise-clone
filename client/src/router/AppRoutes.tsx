@@ -1,13 +1,13 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { LoginPage } from '../pages/login/LoginPage'
-import { SignupPage } from '../pages/signup/SignupPage'
+import { Navigate, Route, Routes } from "react-router-dom";
+import LoginPage from "@/pages/login/LoginPage";
+import SignupPage from "@/pages/signup";
 
 export function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-    </Routes>
-  )
+    return (
+        <Routes>
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+        </Routes>
+    );
 }
