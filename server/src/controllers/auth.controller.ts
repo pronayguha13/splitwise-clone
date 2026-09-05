@@ -1,5 +1,5 @@
 import { comparePassword, hashPassword } from "./../utils/password.util";
-import { NextFunction, Request, response, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { SignupBody } from "../schemas/auth.schema";
 import UserModel from "../db/models/user.model";
 import { HttpError } from "../errors/httpError";
@@ -14,7 +14,6 @@ export const signUpController = async (
             req.body as SignupBody;
 
         //check if the email or username exists already in the database or not
-
         const targetUser = await UserModel.findOne({ email: email });
 
         if (targetUser) {

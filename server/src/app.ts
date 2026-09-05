@@ -1,3 +1,4 @@
+import dotenv  from 'dotenv';
 import cors from "cors";
 import express from "express";
 
@@ -8,12 +9,26 @@ import { authRateLimiter } from "./middleware/rateLimit.middleware.js";
 import healthRoutes from "./routes/health.routes";
 import authRoutes from "./routes/auth.routes";
 
-const app = express();
+dotenv.config();
 
+const app = express();
 app.use(securityHeaders);
+
+const allowedOrigins = [
+    process.env.CLIENT_ORIGIN,
+    "http://localhost:3000",
+    "http://localhost:5173",
+].filter(Boolean) as string[];
+
 app.use(
     cors({
-        origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
         credentials: true,
     }),
 );
