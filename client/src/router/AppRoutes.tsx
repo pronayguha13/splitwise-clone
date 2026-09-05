@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "@/pages/login/LoginPage";
-import SignupPage from "@/pages/signup/SignupPage";
+import SignupPage from "@/pages/signup";
 
 export function AppRoutes() {
     return (
