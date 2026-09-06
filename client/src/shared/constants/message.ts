@@ -5,4 +5,4 @@ export const MESSAGE_SEVERITY = {
     SUCCESS: "success",
 };
 
-export const DEFAULT_MESSAGE_TIMEOUT = 0.5;
+export const DEFAULT_MESSAGE_TIMEOUT = 0.8;

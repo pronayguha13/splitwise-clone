@@ -7,4 +7,5 @@ export type SignUpPayload = {
 export type SignInPayload = {
     email: string;
     password: string;
+    rememberMe: boolean;
 };
