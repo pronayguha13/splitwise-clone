@@ -1,0 +1,83 @@
+Table User {
+  id uuid [pk]
+  email string [unique]
+  createdAt timestamptz
+  isActive bool
+}
+
+Table SplitGroup {
+  id uuid [pk]
+  name string
+  totalSettlementAmount numeric(14,2)
+  createdAt timestamptz
+  updatedAt timestamptz
+}
+
+Table SplitGroupMember {
+  id uuid [pk]
+  userId uuid [not null , ref: > User.id]
+  groupId uuid [not null, ref: > SplitGroup.id]
+  isCreator bool
+  isActive bool
+}
+
+Table SplitGroupTransaction {
+  id uuid [pk , default: `gen_random_uuid()`]
+  sender uuid [not null, ref: > SplitGroupMember.id]
+  receiver uuid [not null, ref: > SplitGroupMember.id]
+  amount numeric(14,2)
+  notificationId uuid [not null , ref: > Notification.id]
+  createdAt timestamptz
+}
+
+Table Notification {
+  id uuid [pk]
+  medium string
+  isSent bool
+  retryCount int
+  createdAt timestamptz
+}
+
+Table Session {
+  id uuid [pk]
+  userId uuid [ not null , ref: > User.id]
+  token uuid
+  createdAt timestamptz
+  updatedAt timestamptz
+}
+
+Table Profile {
+  id uuid [pk]
+  userId uuid [not null, unique, ref: - User.id]
+  firstName string
+  lastName string
+  contactNumber string
+  profilePicture string
+  bio string
+}
+
+Table FavoriteUser {
+  userId uuid [not null, ref :> User.id, delete: 'cascade']
+  favoriteUserId uuid [not null , ref :> User.id, delete: 'cascade']
+  createdAt timestamptz [not null, default: `now()`]
+
+  indexes {
+    (userId, favoriteUserId) [ pk ]
+    favoriteUserId [name: 'idx_user_favorites_favorite_id']
+  }
+
+  checks {
+    `user_id <> favorite_id` [name: 'chk_user_favorites_no_self']
+  }
+}
+
+Table Reminder {
+  id uuid [ pk ]
+  groupId uuid [not null, ref:> SplitGroup.id, delete: 'cascade']
+  reminderTime timestamptz [not null , default: `now()`]
+
+
+  indexes {
+    groupId [ name : 'idx_reminder_group_id']
+  }
+}
